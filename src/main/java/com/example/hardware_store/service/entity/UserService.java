@@ -11,10 +11,6 @@ public interface UserService {
 
     Optional<User> findUserByUsername(String username);
 
-    void saveUser(User user);
-
-    void updateUser(Long id, User user);
-
     void deleteUserById(Long id);
 
     List<User> findAllUsers();

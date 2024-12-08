@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Информация о заказе</title>
+    <link rel="stylesheet" href="/../static/css/styles.css" />
+</head>
+<body>
+<div class="order-info-container">
+    <h1>Информация о заказе</h1>
+
+    <!-- Предположим, что у вас есть поля в объекте Order -->
+    <p>ID заказа: <span th:text="${order.id}"></span></p>
+    <p>Статус заказа: <span th:text="${order.status}"></span></p>
+
+    <!-- Добавьте дополнительные поля заказа по мере необходимости -->
+
+    <!-- Форма для изменения статуса заказа -->
+    <form action="#" th:action="@{/admin/orders/status/{id}(id=${order.id})}" method="post">
+        <label for="status">Изменить статус:</label>
+        <select name="status" id="status">
+            <!-- Предположим, что у вас есть статусы -->
+            <option value="NEW">Новый</option>
+            <option value="PROCESSING">В обработке</option>
+            <option value="COMPLETED">Завершен</option>
+            <!-- Добавьте другие статусы по мере необходимости -->
+        </select>
+        <button type="submit">Обновить статус</button>
+    </form>
+
+    <!-- Ссылка на возвращение к списку заказов -->
+    <a href="/admin">Назад к панели администратора</a>
+</div>
+</body>
+</html>

@@ -1,14 +1,8 @@
 package com.example.hardware_store.service.entity.implementation;
 
 import com.example.hardware_store.entity.Product;
-import com.example.hardware_store.entity.Role;
-import com.example.hardware_store.entity.User;
 import com.example.hardware_store.repository.ProductRepository;
-import com.example.hardware_store.repository.RoleRepository;
-import com.example.hardware_store.repository.UserRepository;
 import com.example.hardware_store.service.entity.ProductService;
-import com.example.hardware_store.service.entity.RoleService;
-import com.example.hardware_store.service.entity.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.ArrayList;
 
 @Service
 @Transactional
@@ -25,7 +18,6 @@ import java.util.ArrayList;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
-
 
     @Override
     public Optional<Product> findProductById(Long id) {
@@ -42,13 +34,23 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(product);
     }
 
+    public Long getProductId(Product product) {
+        return product.getId();
+    }
+
     @Override
-    public void updateProduct(Product product) {
+    public void updateProduct(Long id, Product product) {
+        product.setId(id);
         productRepository.saveAndFlush(product);
     }
 
     @Override
     public void deleteProductById(Long id) {
         productRepository.deleteById(id);
+    }
+
+    public Product  findProductByName(Product product){
+        Optional<Product> product_db = productRepository.findByName(product.getName());
+        return product_db.orElse(null);
     }
 }

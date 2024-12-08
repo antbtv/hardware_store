@@ -1,0 +1,95 @@
+/* Основные стили */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4; /* Светло-серый фон */
+    margin: 0;
+    padding: 0; /* Убираем отступы по умолчанию */
+}
+
+/* Контейнеры */
+.container {
+    max-width: 800px;
+    margin: 20px auto; /* Центрирование контейнера */
+    padding: 20px;
+    background-color: #ffffff; /* Белый фон */
+    border-radius: 8px; /* Закругленные углы */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Легкая тень */
+}
+
+/* Заголовки */
+h1 {
+    color: #003366; /* Темно-синий цвет заголовка */
+}
+
+h2 {
+    color: #0056b3; /* Синий цвет для подзаголовков */
+}
+
+/* Таблицы */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #0056b3; /* Синий фон для заголовков таблицы */
+    color: white; /* Белый текст для заголовков */
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9; /* Светло-серый фон для четных строк */
+}
+
+tr:hover {
+    background-color: #f1f1f1; /* Светло-серый фон при наведении на строку */
+}
+
+/* Стили для ссылок */
+a {
+    color: #0056b3; /* Синий цвет ссылок */
+}
+
+a:hover {
+    text-decoration: underline; /* Подчеркивание при наведении на ссылки */
+}
+
+/* Стили для форм */
+.form-group {
+    margin-bottom: 15px; /* Отступ между полями формы */
+}
+
+label {
+    display: block; /* Отображение меток как блочных элементов */
+}
+
+input[type='text'],
+input[type='password'],
+select {
+    width: 100%; /* Ширина полей ввода на всю ширину контейнера */
+    padding: 10px;
+    border-radius: 4px; /* Закругленные углы полей ввода */
+    border: 1px solid #ccc; /* Светло-серая граница */
+}
+
+button {
+    width: 100%; /* Кнопка на всю ширину контейнера */
+    padding: 10px;
+    background-color: #0056b3; /* Синий фон кнопки */
+    color: white; /* Белый текст на кнопке */
+    border: none; /* Без границы */
+    border-radius: 4px; /* Закругленные углы кнопки */
+}
+
+button:hover {
+    background-color: #004494; /* Темнее при наведении на кнопку */
+}
+
+/* Стили для ошибок валидации */
+.error {
+    color: red; /* Красный цвет для сообщений об ошибках */
+}

@@ -18,8 +18,9 @@ public class Photo {
     @Column(name = "photo_id")
     private Long id;
 
-    @Column(name = "product_id")
-    private Long productId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
+    private Product product;
 
     @Column(name = "photo")
     private String photo;

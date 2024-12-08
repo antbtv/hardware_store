@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить продукт</title>
+    <link rel="stylesheet" href="/../static/css/styles.css" />
+    <style>
+        /* Основные стили */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4; /* Светло-серый фон */
+            margin: 0;
+            padding: 0; /* Убираем отступы по умолчанию */
+        }
+
+        .add-product-container {
+            max-width: 600px;
+            margin: 20px auto; /* Центрирование контейнера */
+            padding: 20px;
+            background-color: #ffffff; /* Белый фон */
+            border-radius: 8px; /* Закругленные углы */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Легкая тень */
+        }
+
+        h1 {
+            color: #003366; /* Темно-синий цвет заголовка */
+            text-align: center; /* Центрируем заголовок */
+        }
+
+        .form-group {
+            margin-bottom: 15px; /* Отступ между полями формы */
+        }
+
+        label {
+            display: block; /* Отображение меток как блочных элементов */
+        }
+
+        input[type='text'],
+        input[type='number'],
+        select {
+            width: calc(100% - 20px); /* Устанавливаем ширину с учетом отступов */
+            padding: 10px;
+            border-radius: 4px; /* Закругленные углы полей ввода */
+            border: 1px solid #ccc; /* Светло-серая граница */
+        }
+
+        button {
+            width: 100%; /* Кнопка на всю ширину контейнера */
+            padding: 10px;
+            background-color: #0056b3; /* Синий фон кнопки */
+            color: white; /* Белый текст на кнопке */
+            border: none; /* Без границы */
+            border-radius: 4px; /* Закругленные углы кнопки */
+            cursor: pointer; /* Указатель при наведении на кнопку */
+        }
+
+        button:hover {
+            background-color: #004494; /* Темнее при наведении на кнопку */
+        }
+
+        a {
+            color: #0056b3; /* Синий цвет ссылок */
+        }
+
+        a:hover {
+            text-decoration: underline; /* Подчеркивание при наведении на ссылки */
+        }
+    </style>
+</head>
+<body>
+<div class="add-product-container">
+    <h1>Добавить продукт</h1>
+
+    <form action="#" th:action="@{/admin/product/add}" method="post" th:object="${product}">
+        <div class="form-group">
+            <label for="name">Название:</label>
+            <input type="text" id="name" name="name" th:field="*{name}" required />
+        </div>
+
+        <div class="form-group">
+            <label for="price">Цена:</label>
+            <input type="text" id="price" name="price" th:field="*{price}" required />
+        </div>
+
+        <div class="form-group">
+            <label for="quantity">Количество:</label>
+            <input type="number" id="quantity" name="quantity" th:field="*{quantity}" required min="0" />
+        </div>
+
+        <div class="form-group">
+            <label for="description">Описание:</label>
+            <input type="text" id="description" name="description" th:field="*{description}" />
+        </div>
+
+        <!-- Кнопка отправки формы -->
+        <button type="submit">Добавить продукт</button>
+
+        <!-- Ссылка на возвращение к списку продуктов -->
+        <a href="/admin">Назад к панели администратора</a>
+    </form>
+
+</div>
+</body>
+</html>

@@ -11,6 +11,8 @@ public interface PhotoService {
 
     List<Photo> findAllPhoto();
 
+    List<Photo> findAllPhotoByProductId(Long productId);
+
     void savePhoto(Photo photo);
 
     void updatePhoto(Photo photo);

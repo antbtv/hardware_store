@@ -32,6 +32,12 @@ public class OrderServiceImpl implements OrderService {
         orderRepository.save(order);
     }
 
+    @Transactional
+    public void updateOrderStatus(Order order, String status){
+        order.setStatus(status);
+        orderRepository.save(order);
+    }
+
     @Override
     public void updateOrder(Order order) {
         orderRepository.saveAndFlush(order);

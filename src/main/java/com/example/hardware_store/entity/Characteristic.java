@@ -24,6 +24,7 @@ public class Characteristic {
     @Column(name = "charact_value")
     private String value;
 
-    @Column(name = "product_id")
-    private Long productId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
+    private Product product;
 }

@@ -28,6 +28,11 @@ public class CharacteristicServiceImpl implements CharacteristicService {
     }
 
     @Override
+    public List<Characteristic> findAllCharacteristicByProductId(Long productId) {
+        return characteristicRepository.findAllCharacteristicByProductId(productId);
+    }
+
+    @Override
     public void saveCharacteristic(Characteristic characteristic) {
         characteristicRepository.save(characteristic);
     }

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактировать заказ</title>
+    <link rel="stylesheet" href="/../static/css/styles.css" />
+    <style>
+        /* Основные стили */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4; /* Светло-серый фон */
+            margin: 0;
+            padding: 0; /* Убираем отступы по умолчанию */
+        }
+
+        .edit-order-container {
+            max-width: 600px;
+            margin: 20px auto; /* Центрирование контейнера */
+            padding: 20px;
+            background-color: #ffffff; /* Белый фон */
+            border-radius: 8px; /* Закругленные углы */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Легкая тень */
+        }
+
+        h1 {
+            color: #003366; /* Темно-синий цвет заголовка */
+            text-align: center; /* Центрируем заголовок */
+        }
+
+        .form-group {
+            margin-bottom: 15px; /* Отступ между полями формы */
+        }
+
+        label {
+            display: block; /* Отображение меток как блочных элементов */
+        }
+
+        input[type='text'],
+        select {
+            width: calc(100% - 20px); /* Устанавливаем ширину с учетом отступов */
+            padding: 10px;
+            border-radius: 4px; /* Закругленные углы полей ввода */
+            border: 1px solid #ccc; /* Светло-серая граница */
+        }
+
+        button {
+            width: 100%; /* Кнопка на всю ширину контейнера */
+            padding: 10px;
+            background-color: #0056b3; /* Синий фон кнопки */
+            color: white; /* Белый текст на кнопке */
+            border: none; /* Без границы */
+            border-radius: 4px; /* Закругленные углы кнопки */
+            cursor: pointer; /* Указатель при наведении на кнопку */
+        }
+
+        button:hover {
+            background-color: #004494; /* Темнее при наведении на кнопку */
+        }
+
+        a {
+            color: #0056b3; /* Синий цвет ссылок */
+        }
+
+        a:hover {
+            text-decoration: underline; /* Подчеркивание при наведении на ссылки */
+        }
+    </style>
+</head>
+<body>
+<div class="edit-order-container">
+    <h1>Редактировать заказ</h1>
+
+    <!-- Форма редактирования заказа -->
+    <form action="#" th:action="@{/admin/orders/status/{id}(id=${order.id})}" method="post" th:object="${order}">
+
+        <div class="form-group">
+            <label for="user">Пользователь:</label>
+            <input type="text" id="user" name="user" th:value="${order.user.username}" disabled /> <!-- Предполагается, что у вас есть объект User в Order -->
+        </div>
+
+        <div class="form-group">
+            <label for="status">Статус:</label>
+            <select id="status" name="status" th:field="*{order.status}" required>
+                <option value="NEW" th:selected="${order.status == 'NEW'}">Новый</option>
+                <option value="PROCESSING" th:selected="${order.status == 'PROCESSING'}">В обработке</option>
+                <option value="COMPLETED" th:selected="${order.status == 'COMPLETED'}">Завершен</option>
+                <option value="CANCELLED" th:selected="${order.status == 'CANCELLED'}">Отменен</option>
+                <!-- Добавьте другие статусы по мере необходимости -->
+            </select>
+        </div>
+
+        <!-- Кнопка отправки формы -->
+        <button type="submit">Сохранить изменения</button>
+
+        <!-- Ссылка на возвращение к списку заказов -->
+        <a href="/admin/orders">Назад к списку заказов</a>
+
+    </form>
+
+</div>
+</body>
+</html>

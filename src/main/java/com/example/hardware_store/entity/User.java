@@ -5,13 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import jakarta.validation.constraints.NotEmpty;
+import org.hibernate.annotations.ColumnDefault;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -19,58 +16,38 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "users")
-public class User implements UserDetails {
+public class User {
+    @Setter
+    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long id;
 
+    @Getter
+    @Setter
     @Column(name = "user_login")
+    @NotEmpty(message = "Логин не может быть пустым")
     private String username;
 
+    @Getter
+    @Setter
     @Column(name = "user_password")
+    @NotEmpty(message = "Пароль не может быть пустым")
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER,
-            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinTable(name = "users_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private List<Role> roles;
+    @Getter
+    @Setter
+    @Column(name = "role")
+    @ColumnDefault(value = "ADMIN")
+    private String role;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getRoles().stream().map(role ->
-                new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
-    }
+    @ManyToMany()
+    @JoinTable(name = "cart", joinColumns = @JoinColumn(name = "user_id"),inverseJoinColumns = @JoinColumn(name = "product_id"))
+    private List<Product> products;
 
-    @Override
-    public String getUsername() {
-        return username;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
+    public User(String username, String password) {
+        this.username= username;
+        this.password = password;
     }
 }

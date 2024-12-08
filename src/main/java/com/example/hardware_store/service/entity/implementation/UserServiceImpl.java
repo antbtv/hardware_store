@@ -1,8 +1,6 @@
 package com.example.hardware_store.service.entity.implementation;
 
-import com.example.hardware_store.entity.Role;
 import com.example.hardware_store.entity.User;
-import com.example.hardware_store.repository.RoleRepository;
 import com.example.hardware_store.repository.UserRepository;
 import com.example.hardware_store.service.entity.UserService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +19,6 @@ import java.util.ArrayList;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
 
@@ -35,31 +32,26 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByUsername(username);
     }
 
-    @Override
-    public void saveUser(User user) {
-        if (user.getId() == null) {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-            user.setRoles(checkAndSetAdminRole(user));
-            userRepository.saveAndFlush(user);
-        } else {
-            updateUser(user.getId(), user);
-        }
+    @Transactional
+    public void updateUser(Long id, User user){
+        user.setId(id);
+        userRepository.save(user);
     }
 
-    @Override
-    public void updateUser(Long id, User user) {
-        User newUser = userRepository.findById(id).orElse(null);
-
-        if (newUser != null && id.equals(newUser.getId())) {
-            newUser.setUsername(user.getUsername());
-            newUser.setRoles(checkAndSetAdminRole(user));
-
-            if (user.getPassword() != null && !user.getPassword().isEmpty()) {
-                newUser.setPassword(passwordEncoder.encode(user.getPassword()));
-            }
-            userRepository.saveAndFlush(newUser);
-        }
+    @Transactional
+    public void updateUserRole(String role, User user){
+        user.setRole(role);
+        /*userRepository.save(user);*/
+        updateUser(user.getId(), user);
     }
+
+    @Transactional
+    public void register(User user){
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole("ROLE_USER");
+        userRepository.save(user);
+    }
+
 
     @Override
     public void deleteUserById(Long id) {
@@ -71,22 +63,5 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll();
     }
 
-    private List<Role> checkAndSetAdminRole(User user) {
 
-        List<String> roleNames = user.getRoles().stream()
-                .map(Role::getName)
-                .toList();
-
-        List<Role> roles = roleRepository.findRolesByName(roleNames).orElse(new ArrayList<>());
-
-        boolean hasAdminRole = roles.stream().anyMatch(role -> role.getName().equals("ROLE_ADMIN"));
-        if (hasAdminRole) {
-            Role userRole = roleRepository.findRoleByName("ROLE_USER").orElse(null);
-            if (userRole != null && !roles.contains(userRole)) {
-                roles.add(userRole);
-            }
-        }
-
-        return roles;
-    }
 }

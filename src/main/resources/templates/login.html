@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Вход</title>
+    <link rel="stylesheet" href="/../static/css/styles.css" />
+    <style>
+        /* Основные стили */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4; /* Светло-серый фон */
+            margin: 0;
+            padding: 0; /* Убираем отступы по умолчанию */
+            height: 100vh; /* Высота вьюпорта для центрирования */
+            display: flex; /* Используем flexbox для центрирования */
+            justify-content: center; /* Центрируем по горизонтали */
+            align-items: center; /* Центрируем по вертикали */
+        }
+
+        .auth-container {
+            max-width: 400px;
+            width: 100%; /* Ширина на всю ширину контейнера */
+            padding: 20px;
+            background-color: #ffffff; /* Белый фон */
+            border-radius: 8px; /* Закругленные углы */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Легкая тень */
+        }
+
+        h1 {
+            color: #003366; /* Темно-синий цвет заголовка */
+            text-align: center; /* Центрируем заголовок */
+        }
+
+        .form-group {
+            margin-bottom: 15px; /* Отступ между полями формы */
+        }
+
+        label {
+            display: block; /* Отображение меток как блочных элементов */
+        }
+
+        input[type='text'],
+        input[type='password'] {
+            width: calc(100% - 20px); /* Устанавливаем ширину с учетом отступов */
+            padding: 10px;
+            border-radius: 4px; /* Закругленные углы полей ввода */
+            border: 1px solid #ccc; /* Светло-серая граница */
+            margin-left: auto; /* Центрируем поле ввода внутри контейнера */
+            margin-right: auto; /* Центрируем поле ввода внутри контейнера */
+        }
+
+        button {
+            width: 100%; /* Кнопка на всю ширину контейнера */
+            padding: 10px;
+            background-color: #0056b3; /* Синий фон кнопки */
+            color: white; /* Белый текст на кнопке */
+            border: none; /* Без границы */
+            border-radius: 4px; /* Закругленные углы кнопки */
+        }
+
+        button:hover {
+            background-color: #004494; /* Темнее при наведении на кнопку */
+        }
+
+        a {
+            color: #0056b3; /* Синий цвет ссылок */
+        }
+
+        a:hover {
+            text-decoration: underline; /* Подчеркивание при наведении на ссылки */
+        }
+    </style>
+</head>
+<body>
+<div class="auth-container">
+    <h1>Вход</h1>
+    <form action="#" th:action="@{/auth/login}" method="post">
+        <div class="form-group">
+            <label for="username">Имя пользователя:</label>
+            <input type="text" id="username" name="username" required />
+        </div>
+        <div class="form-group">
+            <label for="password">Пароль:</label>
+            <input type="password" id="password" name="password" required />
+        </div>
+        <button type="submit">Войти</button>
+    </form>
+    <p>Нет аккаунта? <a th:href="@{/auth/registration}">Зарегистрироваться</a></p>
+</div>
+</body>
+</html>

@@ -26,12 +26,14 @@ public class Order {
     @Column(name = "order_status")
     private String status;
 
-    @Column(name = "product_id")
-    private Long productId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
+    private Product product;
 
     @Column(name = "quantity")
     private Integer quantity;
 
-    @Column(name = "user_id")
-    private Long userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 }
