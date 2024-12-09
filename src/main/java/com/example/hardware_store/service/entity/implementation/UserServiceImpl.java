@@ -41,7 +41,6 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void updateUserRole(String role, User user){
         user.setRole(role);
-        /*userRepository.save(user);*/
         updateUser(user.getId(), user);
     }
 

@@ -7,7 +7,6 @@ import com.example.hardware_store.repository.CartRepository;
 import com.example.hardware_store.repository.OrderRepository;
 import com.example.hardware_store.repository.ProductRepository;
 import com.example.hardware_store.security.UserDetailss;
-import com.example.hardware_store.service.entity.CartService;
 import com.example.hardware_store.service.entity.implementation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -167,7 +166,7 @@ public class UserController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailss userDetails = (UserDetailss) authentication.getPrincipal();
         Long id = userDetails.getUser().getId();
-        cartService.addProductToCart(productId, 1, id);
+        cartService.addProductToCart(productId, id);
 
         return "redirect:/cart";
     }

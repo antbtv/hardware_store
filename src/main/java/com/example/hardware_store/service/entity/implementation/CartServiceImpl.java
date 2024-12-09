@@ -43,8 +43,8 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void addProductToCart(Long productId, Integer quantity, Long userId) {
-        cartRepository.addToCart(productId, quantity, userId);
+    public void addProductToCart(Long productId, Long userId) {
+        cartRepository.addToCart(productId, userId);
     }
 
     @Transactional
