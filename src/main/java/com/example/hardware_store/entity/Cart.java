@@ -18,20 +18,9 @@ public class Cart {
     @Column(name = "cart_id")
     private Long id;
 
-//    @Setter
-//    @Getter
-//    @Column(name = "product_id")
-//    private Long productId;
-
-//    @Column(name = "user_id")
-//    private Long userId;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
-
-    @Column(name = "quantity")
-    private Integer quantity;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

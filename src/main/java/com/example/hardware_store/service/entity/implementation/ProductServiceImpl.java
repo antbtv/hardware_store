@@ -4,6 +4,7 @@ import com.example.hardware_store.entity.Product;
 import com.example.hardware_store.repository.ProductRepository;
 import com.example.hardware_store.service.entity.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,7 @@ import java.util.Optional;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+    private final JdbcTemplate jdbcTemplate;
 
     @Override
     public Optional<Product> findProductById(Long id) {
@@ -46,7 +48,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void deleteProductById(Long id) {
-        productRepository.deleteById(id);
+        String sql = "DELETE FROM product WHERE product_id = ?";
+        jdbcTemplate.update(sql, id);
     }
 
     public Product  findProductByName(Product product){

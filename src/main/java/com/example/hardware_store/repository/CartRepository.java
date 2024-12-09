@@ -17,6 +17,6 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
     void deleteCartById(Long id, Long userId);
 
     @Modifying
-    @Query(value = "INSERT INTO cart (product_id, quantity, user_id) VALUES (?1, ?2, ?3)", nativeQuery = true)
+    @Query(value = "call add_to_cart(?, ?, ?)", nativeQuery = true)
     void addToCart(Long productId, Integer quantity, Long userId);
 }

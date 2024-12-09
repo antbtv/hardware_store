@@ -8,10 +8,7 @@ import com.example.hardware_store.repository.OrderRepository;
 import com.example.hardware_store.repository.ProductRepository;
 import com.example.hardware_store.security.UserDetailss;
 import com.example.hardware_store.service.entity.CartService;
-import com.example.hardware_store.service.entity.implementation.CartServiceImpl;
-import com.example.hardware_store.service.entity.implementation.CharacteristicServiceImpl;
-import com.example.hardware_store.service.entity.implementation.OrderServiceImpl;
-import com.example.hardware_store.service.entity.implementation.ProductServiceImpl;
+import com.example.hardware_store.service.entity.implementation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,19 +25,19 @@ import java.util.Optional;
 public class UserController {
 
     private final OrderRepository orderRepository;
-
     private final CartRepository cartRepository;
     private final CartServiceImpl cartService;
     private final ProductServiceImpl productService;
     private final ProductRepository productRepository;
     private final OrderServiceImpl orderService;
     private final CharacteristicServiceImpl characteristicService;
+    private final PhotoServiceImpl photoService;
 
     @Autowired
     public UserController(OrderRepository orderRepository, CartRepository cartRepository,
                           ProductServiceImpl productService, ProductRepository productRepository,
                           OrderServiceImpl orderService, CharacteristicServiceImpl characteristicService,
-                          CartServiceImpl cartService) {
+                          CartServiceImpl cartService, PhotoServiceImpl photoService) {
         this.orderRepository = orderRepository;
         this.cartRepository = cartRepository;
         this.productService = productService;
@@ -48,14 +45,13 @@ public class UserController {
         this.orderService = orderService;
         this.characteristicService = characteristicService;
         this.cartService = cartService;
+        this.photoService = photoService;
     }
 
     @GetMapping("/index")
     public String index(Model model){
-        // Получае объект аутентификации - > c помощью SecurityContextHolder обращаемся к контексту и на нем вызываем метод аутентификации. По сути из потока для текущего пользователя мы получаем объект, который был положен в сессию после аутентификации пользователя
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        // Преобразовываем объект аутентификации в специальный объект класса по работе с пользователями
         UserDetailss userDetails = (UserDetailss) authentication.getPrincipal();
         System.out.println("person == anonymousUser ? " + (authentication.getPrincipal() == "anonymousUser"));
 
@@ -64,11 +60,9 @@ public class UserController {
         if(role.equals("ROLE_ADMIN")){
             return "redirect:/admin";
         }
-        // addseller
         if(role.equals("ROLE_MANAGER")){
             return "redirect:/manager";
         }
-        // addseller end
         model.addAttribute("products", productService.findAllProducts());
         return "user/index";
     }
@@ -80,8 +74,6 @@ public class UserController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailss userDetails = (UserDetailss) authentication.getPrincipal();
         Long id_person = userDetails.getUser().getId();
-//        Cart cart = new Cart(id_person, product.get().getId());
-//        cartRepository.save(cart);
         return "redirect:/cart";
     }
 
@@ -102,16 +94,10 @@ public class UserController {
         }
 
         model.addAttribute("price", price);
-//        model.addAttribute("text_to_order", text_to_order);
         model.addAttribute("cart_product", productList);
         return "user/cart";
     }
 
-//    @GetMapping("/user/product/info/{id}")
-//    public String infoProduct(@PathVariable("id") Long id, Model model){
-//        model.addAttribute("product", productService.findProductById(id));
-//        return "user/infoProduct";
-//    }
 
     @GetMapping("/cart/delete/{id}")
     public String deleteProductFromCart(Model model, @PathVariable("id") Long id){
@@ -140,6 +126,18 @@ public class UserController {
         return "redirect:/orders";
     }
 
+    @PostMapping("/order/create")
+    public String createOrder(@RequestParam("productId") Long productId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailss userDetails = (UserDetailss) authentication.getPrincipal();
+        Long userId = userDetails.getUser().getId();
+
+        orderService.createOrder(productId, userId);
+        cartService.removeFromCartByUserId(productId, userId);
+
+        return "redirect:/orders";
+    }
+
     //CHARACT
 
     @GetMapping("/user/product/info/{id}")
@@ -148,6 +146,7 @@ public class UserController {
         model.addAttribute("product", product);
         model.addAttribute("characteristics",
                 characteristicService.findAllCharacteristicByProductId(id));
+        model.addAttribute("photos", photoService.findAllPhotoByProductId(id));
         return "user/productInfo";
     }
 
@@ -155,23 +154,21 @@ public class UserController {
 
     @PostMapping("/cart/delete/{id}")
     public String deleteFromCart(@PathVariable("id") Long productId, Principal principal) {
-        // Получаем ID пользователя (например, через Principal)
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailss userDetails = (UserDetailss) authentication.getPrincipal();
         Long id = userDetails.getUser().getId();
         cartService.removeFromCartByUserId(productId, id);
 
-        return "redirect:/cart"; // Перенаправление обратно в корзину
+        return "redirect:/cart";
     }
 
     @PostMapping("cart/add/{id}")
     public String addProductToCart(@PathVariable("id") Long productId, Principal principal) {
-        // Получаем ID пользователя (можно использовать метод, который вы уже реализовали)
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailss userDetails = (UserDetailss) authentication.getPrincipal();
         Long id = userDetails.getUser().getId();
         cartService.addProductToCart(productId, 1, id);
 
-        return "redirect:/cart"; // Перенаправление обратно в корзину
+        return "redirect:/cart";
     }
 }

@@ -64,6 +64,22 @@
         a:hover {
             text-decoration: underline; /* Подчеркивание при наведении на ссылки */
         }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #0056b3;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -72,6 +88,7 @@
 
     <!-- Форма редактирования продукта -->
     <form action="#" th:action="@{/admin/product/edit/{id}(id=${editProduct.id})}" method="post" th:object="${editProduct}">
+
         <div class="form-group">
             <label for="name">Название:</label>
             <input type="text" id="name" name="name" th:field="*{name}" required />
@@ -84,7 +101,7 @@
 
         <div class="form-group">
             <label for="quantity">Количество:</label>
-            <input type="number" id="quantity" name="quantity" th:field="*{quantity}"  />
+            <input type="number" id="quantity" name="quantity" th:field="*{quantity}" required min="0"/>
         </div>
 
         <div class="form-group">
@@ -92,11 +109,13 @@
             <input type="text" id="description" name="description" th:field="*{description}" />
         </div>
 
+
         <!-- Кнопка отправки формы -->
         <button type="submit">Сохранить изменения</button>
 
         <!-- Ссылка на возвращение к списку продуктов -->
         <a href="/admin">Назад к панели администратора</a>
+
     </form>
 
 </div>

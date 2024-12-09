@@ -53,7 +53,7 @@
     }
 
     tr:hover {
-      background-color: #e1e1e1; /* Светло-серый фон при наведении на строку */
+      background-color: #f1f1f1; /* Светло-серый фон при наведении на строку */
     }
 
     a {
@@ -74,6 +74,7 @@
       color: white; /* Белый текст на кнопке */
       border-radius: 4px; /* Закругленные углы кнопки */
       text-align: center;
+      font-weight: bold;
       text-decoration: none; /* Убираем подчеркивание у кнопок */
     }
 
@@ -81,11 +82,17 @@
       background-color: #004494; /* Темнее при наведении на кнопку */
     }
 
+    .logout-button {
+      float: right; /* Выравнивание кнопки Logout вправо */
+    }
   </style>
 </head>
 <body>
 <div class="container">
   <h1>Добро пожаловать!</h1>
+
+  <!-- Кнопка Logout -->
+  <a class="button logout-button" th:href="@{/logout}">Выйти</a>
 
   <h2>Список продуктов</h2>
   <table>

@@ -11,6 +11,8 @@ public interface OrderService {
 
     List<Order> findAllOrders();
 
+    void createOrder(Long productId, Long userId);
+
     void saveOrder(Order order);
 
     void updateOrder(Order order);

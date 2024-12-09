@@ -4,6 +4,8 @@ import com.example.hardware_store.entity.Order;
 import com.example.hardware_store.repository.OrderRepository;
 import com.example.hardware_store.service.entity.OrderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +18,7 @@ import java.util.Optional;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
+    private final JdbcTemplate jdbcTemplate;
 
     @Override
     public Optional<Order> findOrderById(Long id) {
@@ -25,6 +28,12 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> findAllOrders() {
         return orderRepository.findAll();
+    }
+
+    @Override
+    public void createOrder(Long productId, Long userId) {
+        String sql = "CALL create_order(?, ?)";
+        jdbcTemplate.update(sql, productId, userId);
     }
 
     @Override

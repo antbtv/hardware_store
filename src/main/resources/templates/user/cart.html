@@ -76,12 +76,6 @@
         .button:hover {
             background-color: #004494; /* Темнее при наведении на кнопку */
         }
-
-        .total-price {
-            font-size: 1.5em;
-            color: #333;
-            margin-top: 20px;
-        }
     </style>
 </head>
 <body>
@@ -107,6 +101,13 @@
                 <form action="#" th:action="@{/cart/delete/{id}(id=${product.id})}" method="post" style="display:inline;">
                     <button type="submit" class="button" onclick="return confirm('Вы уверены, что хотите удалить этот продукт?');">Удалить из корзины</button>
                 </form>
+
+                <!-- Форма создания заказа -->
+                <form action="#" th:action="@{/order/create}" method="post" style="display:inline;">
+                    <input type="hidden" name="productId" th:value="${product.id}" />
+                    <button type="submit" class="button">Создать заказ</button>
+                </form>
+
             </td>
         </tr>
         </tbody>

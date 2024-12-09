@@ -7,7 +7,7 @@
     <style>
         /* Основные стили */
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Arial', sans-serif; /* Устанавливаем шрифт для всего документа */
             background-color: #f4f4f4; /* Светло-серый фон */
             margin: 0;
             padding: 0; /* Убираем отступы по умолчанию */
@@ -22,7 +22,8 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Легкая тень */
         }
 
-        h1 {
+        h1, h2 {
+            font-family: 'Arial', sans-serif; /* Устанавливаем тот же шрифт для заголовков */
             color: #003366; /* Темно-синий цвет заголовка */
             text-align: center; /* Центрируем заголовок */
         }
@@ -40,6 +41,7 @@
         th, td {
             padding: 12px;
             text-align: left;
+            font-family: 'Arial', sans-serif; /* Устанавливаем тот же шрифт для ячеек таблицы */
         }
 
         th {
@@ -72,6 +74,7 @@
             border-radius: 4px; /* Закругленные углы кнопки */
             text-align: center;
             text-decoration: none; /* Убираем подчеркивание у кнопок */
+            font-family: 'Arial', sans-serif; /* Устанавливаем тот же шрифт для кнопок */
         }
 
         .button:hover {
@@ -110,16 +113,24 @@
             <td th:text="${product.description}"></td>
             <td th:text="${product.quantity}"></td>
             <td>
-                <a th:href="@{/admin/product/edit/{id}(id=${product.id})}">Редактировать</a> |
-                <a th:href="@{/admin/product/delete/{id}(id=${product.id})}" onclick="return confirm('Вы уверены, что хотите удалить этот продукт?');">Удалить</a>
+                <!-- Кнопка редактирования -->
+                <form action="#" th:action="@{/admin/product/edit/{id}(id=${product.id})}" method="get" style="display:inline;">
+                    <button type="submit" class="button">Редактировать</button>
+                </form>
+
+                <!-- Кнопка удаления -->
+                <form action="#" th:action="@{/admin/product/delete/{id}(id=${product.id})}" method="post" style="display:inline;">
+                    <button type="submit" class="button" onclick="return confirm('Вы уверены, что хотите удалить этот продукт?');">Удалить</button>
+                </form>
+
             </td>
         </tr>
         </tbody>
     </table>
 
-    <h2><a href="/admin/product/add">Добавить новый продукт</a></h2>
+    <h2><a class="button" href="/admin/product/add">Добавить новый продукт</a></h2>
 
-    <h2><a href="/admin/user">Управление пользователями</a></h2>
+    <h2><a class="button" href="/admin/user">Управление пользователями</a></h2>
 
 </div>
 </body>
