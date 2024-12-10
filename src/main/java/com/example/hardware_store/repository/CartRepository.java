@@ -13,7 +13,7 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
     List<Cart> findByUserId(Long id);
 
     @Modifying
-    @Query(value = "delete from cart where product_id=?1 and user_id=?2", nativeQuery = true)
+    @Query(value = "call remove_from_cart(?, ?)", nativeQuery = true)
     void deleteCartById(Long id, Long userId);
 
     @Modifying

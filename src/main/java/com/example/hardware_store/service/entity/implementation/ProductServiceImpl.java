@@ -48,7 +48,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void deleteProductById(Long id) {
-        String sql = "DELETE FROM product WHERE product_id = ?";
+        String sql = "call delete_product(?)";
         jdbcTemplate.update(sql, id);
     }
 
